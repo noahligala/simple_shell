@@ -49,10 +49,39 @@ To use the simple shell, compile the program and run it. You can interact with t
 	hsh main.c shell.c
 	```
  ### Tasks
- <li>
-	 This Project consists of several tasks:
-	 - **Betty Would Be Proud:** Ensure that your code follows the Betty style guide.</ul>
-	 - **Simple shell 0.1:** Create a basic shell that displays a prompt, accepts one-word commands, and handles errors.</ul>
-	 - **Simple shell 0.2:**
-	 - **Simple shell 0.2:**
- </li>
+The project consists of several tasks:
+
+Betty would be proud: Ensure that your code follows the Betty style guide.
+
+Simple shell 0.1: Create a basic shell that displays a prompt, accepts one-word commands, and handles errors.
+
+Simple shell 0.2: Extend the shell to handle commands with arguments.
+
+Simple shell 0.3: Implement the PATH and ensure fork is not called for non-existing commands.
+
+Simple shell 0.4: Implement the exit built-in command.
+
+Simple shell 1.0: Implement the env built-in command to display the current environment.
+
+Compilation
+To compile the shell, use the following command:
+
+bash
+```
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+```
+
+### Testing
+You can test the shell in both interactive and non-interactive modes. Interactive mode allows you to enter commands directly, while non-interactive mode accepts input from a file or a pipe.
+
+### Authors
+This project is a collaborative effort, and the authors are:
+
+<bold>Ligala Noah</bold>
+GitHub Repository
+You can find the source code for this project on GitHub at GitHub Repository: simple_shell.
+
+
+
+
+
