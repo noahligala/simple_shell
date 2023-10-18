@@ -32,18 +32,27 @@ To use the simple shell, compile the program and run it. You can interact with t
 
 ### Interactive Mode
 
-<code>
+
 ```bash
-$ ./hsh
-($) /bin/ls
-hsh main.c shell.c
-($)
-($) exit
-$
-</code>
+	$ ./hsh
+	($) /bin/ls
+	hsh main.c shell.c
+	($)
+	($) exit
+	$
+```
+
 
 ### Non-Interactive Mode
-<code>
+	```
 	$ echo "/bin/ls" | ./hsh
 	hsh main.c shell.c
-</code>
+	```
+ ### Tasks
+ <li>
+	 This Project consists of several tasks:
+	 <ul><bold>Betty Would Be Proud:</bold> Ensure that your code follows the Betty style guide.</ul>
+	 <ul><bold>Simple shell 0.1:</bold>Create a basic shell that displays a prompt, accepts one-word commands, and handles errors.</ul>
+	 <ul><bold>Simple shell 0.2:</bold></ul>
+	 <ul><bold>Simple shell 0.2:</bold></ul>
+ </li>
