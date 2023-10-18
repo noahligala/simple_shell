@@ -63,7 +63,7 @@ Simple shell 0.4: Implement the exit built-in command.
 
 Simple shell 1.0: Implement the env built-in command to display the current environment.
 
-Compilation
+### Compilation
 To compile the shell, use the following command:
 
 bash
