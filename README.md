@@ -1,6 +1,6 @@
-# Simple Shell Project
+#Simple Shell Project
 
-## Table of Contents
+##Table of Contents
 
 - [Description](#description)
 - [Requirements](#requirements)
