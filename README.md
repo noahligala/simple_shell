@@ -51,8 +51,8 @@ To use the simple shell, compile the program and run it. You can interact with t
  ### Tasks
  <li>
 	 This Project consists of several tasks:
-	 <ul><bold>Betty Would Be Proud:</bold> Ensure that your code follows the Betty style guide.</ul>
-	 <ul><bold>Simple shell 0.1:</bold>Create a basic shell that displays a prompt, accepts one-word commands, and handles errors.</ul>
-	 <ul><bold>Simple shell 0.2:</bold></ul>
-	 <ul><bold>Simple shell 0.2:</bold></ul>
+	 - **Betty Would Be Proud:** Ensure that your code follows the Betty style guide.</ul>
+	 - **Simple shell 0.1:** Create a basic shell that displays a prompt, accepts one-word commands, and handles errors.</ul>
+	 - **Simple shell 0.2:**
+	 - **Simple shell 0.2:**
  </li>
