@@ -7,19 +7,17 @@
  *
  * Return: pointer to destination
  */
-char *_strcpy(char *dest, char *src)
+char *_strcpy(char *dest, const char *src)
 {
-	int i = 0;
+    int i = 0;
 
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
+    if (dest == src || src == NULL)
+        return dest;
+
+    while ((dest[i] = src[i]) != '\0')
+        i++;
+
+    return dest;
 }
 
 /**
@@ -30,38 +28,41 @@ char *_strcpy(char *dest, char *src)
  */
 char *_strdup(const char *str)
 {
-	int length = 0;
-	char *ret;
+    int length = 0;
+    char *ret;
 
-	if (str == NULL)
-		return (NULL);
-	while (*str++)
-		length++;
-	ret = malloc(sizeof(char) * (length + 1));
-	if (!ret)
-		return (NULL);
-	for (length++; length--;)
-		ret[length] = *--str;
-	return (ret);
+    if (str == NULL)
+        return NULL;
+
+    while (str[length] != '\0')
+        length++;
+
+    ret = malloc(sizeof(char) * (length + 1));
+    if (!ret)
+        return NULL;
+
+    for (int i = 0; i <= length; i++)
+        ret[i] = str[i];
+
+    return ret;
 }
 
 /**
- *_puts - prints an input string
- *@str: the string to be printed
+ * _puts - prints an input string
+ * @str: the string to be printed
  *
  * Return: Nothing
  */
-void _puts(char *str)
+void _puts(const char *str)
 {
-	int i = 0;
+    if (!str)
+        return;
 
-	if (!str)
-		return;
-	while (str[i] != '\0')
-	{
-		_putchar(str[i]);
-		i++;
-	}
+    while (*str != '\0')
+    {
+        _putchar(*str);
+        str++;
+    }
 }
 
 /**
@@ -73,15 +74,17 @@ void _puts(char *str)
  */
 int _putchar(char c)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+    static int i;
+    static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
-	{
-		write(1, buf, i);
-		i = 0;
-	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
-	return (1);
+    if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+    {
+        write(1, buf, i);
+        i = 0;
+    }
+
+    if (c != BUF_FLUSH)
+        buf[i++] = c;
+
+    return 1;
 }
