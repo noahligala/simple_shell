@@ -1,74 +1,74 @@
 #include "shell.h"
 
 /**
- * clear_info - initializes info_t struct
+ * initializeInfo - initializes info_t struct
  * @info: struct address
  */
-void clear_info(info_t *info)
+void initializeInfo(info_t *info)
 {
-	info->arg = NULL;
-	info->argv = NULL;
+	info->arguments = NULL;
+	info->argumentVector = NULL;
 	info->path = NULL;
-	info->argc = 0;
+	info->argumentCount = 0;
 }
 
 /**
- * set_info - initializes info_t struct
+ * fillInfo - initializes info_t struct
  * @info: struct address
- * @av: argument vector
+ * @argumentVector: argument vector
  */
-void set_info(info_t *info, char **av)
+void fillInfo(info_t *info, char **argumentVector)
 {
 	int i = 0;
 
-	info->fname = av[0];
-	if (info->arg)
+	info->executableName = argumentVector[0];
+	if (info->arguments)
 	{
-		info->argv = strtow(info->arg, " \t");
-		if (!info->argv)
+		info->argumentVector = strtow(info->arguments, " \t");
+		if (!info->argumentVector)
 		{
 
-			info->argv = malloc(sizeof(char *) * 2);
-			if (info->argv)
+			info->argumentVector = malloc(sizeof(char *) * 2);
+			if (info->argumentVector)
 			{
-				info->argv[0] = _strdup(info->arg);
-				info->argv[1] = NULL;
+				info->argumentVector[0] = _strdup(info->arguments);
+				info->argumentVector[1] = NULL;
 			}
 		}
-		for (i = 0; info->argv && info->argv[i]; i++)
+		for (i = 0; info->argumentVector && info->argumentVector[i]; i++)
 			;
-		info->argc = i;
+		info->argumentCount = i;
 
-		replace_alias(info);
-		replace_vars(info);
+		replaceAlias(info);
+		replaceVariables(info);
 	}
 }
 
 /**
- * free_info - frees info_t struct fields
+ * releaseInfo - frees info_t struct fields
  * @info: struct address
- * @all: true if freeing all fields
+ * @freeAll: true if freeing all fields
  */
-void free_info(info_t *info, int all)
+void releaseInfo(info_t *info, int freeAll)
 {
-	ffree(info->argv);
-	info->argv = NULL;
+	ffree(info->argumentVector);
+	info->argumentVector = NULL;
 	info->path = NULL;
-	if (all)
+	if (freeAll)
 	{
-		if (!info->cmd_buf)
-			free(info->arg);
-		if (info->env)
-			free_list(&(info->env));
+		if (!info->commandBuffer)
+			free(info->arguments);
+		if (info->environment)
+			freeList(&(info->environment));
 		if (info->history)
-			free_list(&(info->history));
-		if (info->alias)
-			free_list(&(info->alias));
-		ffree(info->environ);
-			info->environ = NULL;
-		bfree((void **)info->cmd_buf);
-		if (info->readfd > 2)
-			close(info->readfd);
+			freeList(&(info->history));
+		if (info->aliasList)
+			freeList(&(info->aliasList));
+		ffree(info->environmentStrings);
+		info->environmentStrings = NULL;
+		bfree((void **)info->commandBuffer);
+		if (info->readFileDescriptor > 2)
+			close(info->readFileDescriptor);
 		_putchar(BUF_FLUSH);
 	}
 }
