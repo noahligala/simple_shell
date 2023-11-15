@@ -1,65 +1,63 @@
 #include "shell.h"
 
 /**
- * interactive - returns true if shell is interactive mode
- * @info: struct address
+ * isInteractive - returns true if shell is in interactive mode
+ * @infoStruct: struct address
  *
  * Return: 1 if interactive mode, 0 otherwise
  */
-int interactive(info_t *info)
+int isInteractive(info_t *infoStruct)
 {
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+	return (isatty(STDIN_FILENO) && infoStruct->readfd <= 2);
 }
 
 /**
- * is_delim - checks if character is a delimeter
- * @c: the char to check
- * @delim: the delimeter string
+ * isDelimiter - checks if character is a delimiter
+ * @character: the char to check
+ * @delimiterString: the delimiter string
  * Return: 1 if true, 0 if false
  */
-int is_delim(char c, char *delim)
+int isDelimiter(char character, char *delimiterString)
 {
-	while (*delim)
-		if (*delim++ == c)
+	while (*delimiterString)
+		if (*delimiterString++ == character)
 			return (1);
 	return (0);
 }
 
 /**
- *_isalpha - checks for alphabetic character
- *@c: The character to input
- *Return: 1 if c is alphabetic, 0 otherwise
+ * isAlphabetic - checks for alphabetic character
+ * @charValue: The character to input
+ * Return: 1 if charValue is alphabetic, 0 otherwise
  */
-
-int _isalpha(int c)
+int isAlphabetic(int charValue)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if ((charValue >= 'a' && charValue <= 'z') || (charValue >= 'A' && charValue <= 'Z'))
 		return (1);
 	else
 		return (0);
 }
 
 /**
- *_atoi - converts a string to an integer
- *@s: the string to be converted
- *Return: 0 if no numbers in string, converted number otherwise
+ * convertToInteger - converts a string to an integer
+ * @inputString: the string to be converted
+ * Return: 0 if no numbers in string, converted number otherwise
  */
-
-int _atoi(char *s)
+int convertToInteger(char *inputString)
 {
-	int i, sign = 1, flag = 0, output;
+	int index, sign = 1, flag = 0, output;
 	unsigned int result = 0;
 
-	for (i = 0;  s[i] != '\0' && flag != 2; i++)
+	for (index = 0;  inputString[index] != '\0' && flag != 2; index++)
 	{
-		if (s[i] == '-')
+		if (inputString[index] == '-')
 			sign *= -1;
 
-		if (s[i] >= '0' && s[i] <= '9')
+		if (inputString[index] >= '0' && inputString[index] <= '9')
 		{
 			flag = 1;
 			result *= 10;
-			result += (s[i] - '0');
+			result += (inputString[index] - '0');
 		}
 		else if (flag == 1)
 			flag = 2;
