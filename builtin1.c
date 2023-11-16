@@ -1,83 +1,79 @@
 #include "shell.h"
 
 /**
- * displayHistory - displays the history list, one command by line, preceded
- *                  with line numbers, starting at 0.
- * @shellInfo: Structure containing potential arguments. Used to maintain
- *             constant function prototype.
+ * _myhistory - displays the history list, one command by line, preceded
+ *              with line numbers, starting at 0.
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
  *  Return: Always 0
  */
-int displayHistory(info_t *shellInfo)
+int _myhistory(info_t *info)
 {
-	print_list(shellInfo->history);
+	print_list(info->history);
 	return (0);
 }
 
 /**
- * removeAlias - removes alias from the list
- * @shellInfo: parameter struct
- * @aliasString: the string alias
+ * unset_alias - sets alias to string
+ * @info: parameter struct
+ * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int removeAlias(info_t *shellInfo, char *aliasString)
+int unset_alias(info_t *info, char *str)
 {
-	char *equalSign, character;
-	int result;
+	char *p, c;
+	int ret;
 
-	equalSign = _strchr(aliasString, '=');
-	if (!equalSign)
+	p = _strchr(str, '=');
+	if (!p)
 		return (1);
-
-	character = *equalSign;
-	*equalSign = 0;
-	result = delete_node_at_index(&(shellInfo->alias),
-		get_node_index(shellInfo->alias, node_starts_with(shellInfo->alias, aliasString, -1)));
-	*equalSign = character;
-
-	return result;
+	c = *p;
+	*p = 0;
+	ret = delete_node_at_index(&(info->alias),
+		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	*p = c;
+	return (ret);
 }
 
 /**
- * addAlias - adds alias to the list
- * @shellInfo: parameter struct
- * @aliasString: the string alias
+ * set_alias - sets alias to string
+ * @info: parameter struct
+ * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int addAlias(info_t *shellInfo, char *aliasString)
+int set_alias(info_t *info, char *str)
 {
-	char *equalSign;
+	char *p;
 
-	equalSign = _strchr(aliasString, '=');
-	if (!equalSign)
+	p = _strchr(str, '=');
+	if (!p)
 		return (1);
+	if (!*++p)
+		return (unset_alias(info, str));
 
-	if (!*++equalSign)
-		return (removeAlias(shellInfo, aliasString));
-
-	removeAlias(shellInfo, aliasString);
-
-	return (add_node_end(&(shellInfo->alias), aliasString, 0) == NULL);
+	unset_alias(info, str);
+	return (add_node_end(&(info->alias), str, 0) == NULL);
 }
 
 /**
- * printAlias - prints an alias string
- * @aliasNode: the alias node
+ * print_alias - prints an alias string
+ * @node: the alias node
  *
  * Return: Always 0 on success, 1 on error
  */
-int printAlias(list_t *aliasNode)
+int print_alias(list_t *node)
 {
-	char *equalSign = NULL, *aliasStart = NULL;
+	char *p = NULL, *a = NULL;
 
-	if (aliasNode)
+	if (node)
 	{
-		equalSign = _strchr(aliasNode->str, '=');
-		for (aliasStart = aliasNode->str; aliasStart <= equalSign; aliasStart++)
-			_putchar(*aliasStart);
+		p = _strchr(node->str, '=');
+		for (a = node->str; a <= p; a++)
+			_putchar(*a);
 		_putchar('\'');
-		_puts(equalSign + 1);
+		_puts(p + 1);
 		_puts("'\n");
 		return (0);
 	}
@@ -85,34 +81,34 @@ int printAlias(list_t *aliasNode)
 }
 
 /**
- * manageAlias - mimics the alias builtin (man alias)
- * @shellInfo: Structure containing potential arguments. Used to maintain
- *             constant function prototype.
+ * _myalias - mimics the alias builtin (man alias)
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
  *  Return: Always 0
  */
-int manageAlias(info_t *shellInfo)
+int _myalias(info_t *info)
 {
-	int index = 0;
-	char *equalSign = NULL;
-	list_t *aliasNode = NULL;
+	int i = 0;
+	char *p = NULL;
+	list_t *node = NULL;
 
-	if (shellInfo->argc == 1)
+	if (info->argc == 1)
 	{
-		aliasNode = shellInfo->alias;
-		while (aliasNode)
+		node = info->alias;
+		while (node)
 		{
-			printAlias(aliasNode);
-			aliasNode = aliasNode->next;
+			print_alias(node);
+			node = node->next;
 		}
 		return (0);
 	}
-	for (index = 1; shellInfo->argv[index]; index++)
+	for (i = 1; info->argv[i]; i++)
 	{
-		equalSign = _strchr(shellInfo->argv[index], '=');
-		if (equalSign)
-			addAlias(shellInfo, shellInfo->argv[index]);
+		p = _strchr(info->argv[i], '=');
+		if (p)
+			set_alias(info, info->argv[i]);
 		else
-			printAlias(node_starts_with(shellInfo->alias, shellInfo->argv[index], '='));
+			print_alias(node_starts_with(info->alias, info->argv[i], '='));
 	}
 
 	return (0);

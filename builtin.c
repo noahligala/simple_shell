@@ -1,99 +1,97 @@
 #include "shell.h"
 
 /**
- * customExit - exits the shell
- * @shellInfo: Structure containing potential arguments. Used to maintain
+ * _myexit - exits the shell
+ * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: exits with a given exit status
- *         (0) if shellInfo->arguments[0] != "exit"
+ *         (0) if info.argv[0] != "exit"
  */
-int customExit(info_t *shellInfo)
+int _myexit(info_t *info)
 {
-	int exitStatus;
+	int exitcheck;
 
-	if (shellInfo->arguments[1])  /* If there is an exit argument */
+	if (info->argv[1])  /* If there is an exit arguement */
 	{
-		exitStatus = _erratoi(shellInfo->arguments[1]);
-		if (exitStatus == -1)
+		exitcheck = _erratoi(info->argv[1]);
+		if (exitcheck == -1)
 		{
-			shellInfo->status = 2;
-			print_error(shellInfo, "Illegal number: ");
-			_eputs(shellInfo->arguments[1]);
+			info->status = 2;
+			print_error(info, "Illegal number: ");
+			_eputs(info->argv[1]);
 			_eputchar('\n');
 			return (1);
 		}
-		shellInfo->err_num = _erratoi(shellInfo->arguments[1]);
+		info->err_num = _erratoi(info->argv[1]);
 		return (-2);
 	}
-	shellInfo->err_num = -1;
+	info->err_num = -1;
 	return (-2);
 }
 
 /**
- * customCd - changes the current directory of the process
- * @shellInfo: Structure containing potential arguments. Used to maintain
+ * _mycd - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int customCd(info_t *shellInfo)
+int _mycd(info_t *info)
 {
-	char *currentDir, *targetDir, buffer[1024];
-	int chdirResult;
+	char *s, *dir, buffer[1024];
+	int chdir_ret;
 
-	currentDir = getcwd(buffer, 1024);
-	if (!currentDir)
+	s = getcwd(buffer, 1024);
+	if (!s)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
-
-	if (!shellInfo->arguments[1])
+	if (!info->argv[1])
 	{
-		targetDir = _getenv(shellInfo, "HOME=");
-		if (!targetDir)
-			chdirResult = /* TODO: what should this be? */
-				chdir((targetDir = _getenv(shellInfo, "PWD=")) ? targetDir : "/");
+		dir = _getenv(info, "HOME=");
+		if (!dir)
+			chdir_ret = /* TODO: what should this be? */
+				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
 		else
-			chdirResult = chdir(targetDir);
+			chdir_ret = chdir(dir);
 	}
-	else if (_strcmp(shellInfo->arguments[1], "-") == 0)
+	else if (_strcmp(info->argv[1], "-") == 0)
 	{
-		if (!_getenv(shellInfo, "OLDPWD="))
+		if (!_getenv(info, "OLDPWD="))
 		{
-			_puts(currentDir);
+			_puts(s);
 			_putchar('\n');
 			return (1);
 		}
-		_puts(_getenv(shellInfo, "OLDPWD=")), _putchar('\n');
-		chdirResult = /* TODO: what should this be? */
-			chdir((targetDir = _getenv(shellInfo, "OLDPWD=")) ? targetDir : "/");
+		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: what should this be? */
+			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		chdirResult = chdir(shellInfo->arguments[1]);
-
-	if (chdirResult == -1)
+		chdir_ret = chdir(info->argv[1]);
+	if (chdir_ret == -1)
 	{
-		print_error(shellInfo, "can't cd to ");
-		_eputs(shellInfo->arguments[1]), _eputchar('\n');
+		print_error(info, "can't cd to ");
+		_eputs(info->argv[1]), _eputchar('\n');
 	}
 	else
 	{
-		_setenv(shellInfo, "OLDPWD", _getenv(shellInfo, "PWD="));
-		_setenv(shellInfo, "PWD", getcwd(buffer, 1024));
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
 
 /**
- * customHelp - displays help information
- * @shellInfo: Structure containing potential arguments. Used to maintain
+ * _myhelp - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int customHelp(info_t *shellInfo)
+int _myhelp(info_t *info)
 {
-	char **argumentArray;
+	char **arg_array;
 
-	argumentArray = shellInfo->arguments;
+	arg_array = info->argv;
 	_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*argumentArray); /* temp att_unused workaround */
+		_puts(*arg_array); /* temp att_unused workaround */
 	return (0);
 }
